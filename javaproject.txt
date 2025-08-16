@@ -1,0 +1,122 @@
+import java.util.*;
+
+class Leave {
+    String type;
+    int days;
+    String status = "Pending";
+
+    Leave(String type, int days) {
+        this.type = type;
+        this.days = days;
+    }
+}
+
+class Employee {
+    int id;
+    String name;
+    List<Leave> leaveList = new ArrayList<>();
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    void applyLeave(String type, int days) {
+        Leave l = new Leave(type, days);
+        leaveList.add(l);
+        System.out.println("Leave Applied Successfully !");
+    }
+
+    void viewLeaves() {
+        System.out.println("Leave List:");
+        for (Leave l : leaveList) {
+            System.out.println(l.type + " - " + l.days + " days - " + l.status);
+        }
+    }
+}
+
+public class Main {
+    static Scanner sc = new Scanner(System.in);
+    static List<Employee> employees = new ArrayList<>();
+
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\n1.Add Employee  2.Apply Leave  3.View Leaves  4.Approve/Reject Leave  5.Exit");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    addEmployee();
+                    break;
+                case 2:
+                    applyLeave();
+                    break;
+                case 3:
+                    viewLeaves();
+                    break;
+                case 4:
+                    approveReject();
+                    break;
+                case 5:
+                    System.out.println("Thank you");
+                    return;
+            }
+        }
+    }
+
+    static void addEmployee() {
+        System.out.print("Enter ID: ");
+        int id = sc.nextInt();
+        System.out.print("Enter Name: ");
+        String name = sc.next();
+        employees.add(new Employee(id, name));
+        System.out.println("Employee Added.");
+    }
+
+    static Employee findEmp(int id) {
+        for (Employee e : employees) {
+            if (e.id == id)
+                return e;
+        }
+        return null;
+    }
+
+    static void applyLeave() {
+        System.out.print("Enter Employee ID: ");
+        int id = sc.nextInt();
+        Employee e = findEmp(id);
+        if (e != null) {
+            System.out.print("Enter Leave Type: ");
+            String t = sc.next();
+            System.out.print("Enter No. of Days: ");
+            int d = sc.nextInt();
+            e.applyLeave(t, d);
+        }
+    }
+
+    static void viewLeaves() {
+        System.out.print("Enter Employee ID: ");
+        int id = sc.nextInt();
+        Employee e = findEmp(id);
+        if (e != null) {
+            e.viewLeaves();
+        }
+    }
+
+    static void approveReject() {
+        System.out.print("Enter Employee ID: ");
+        int id = sc.nextInt();
+        Employee e = findEmp(id);
+        if (e != null) {
+            e.viewLeaves();
+            System.out.print("Enter Leave Number to update (starting from 1): ");
+            int idx = sc.nextInt() - 1;
+            System.out.print("Approve or Reject?: ");
+            String decision = sc.next();
+            e.leaveList.get(idx).status = decision;
+            System.out.println("Status Updated !");
+        }
+    }
+
+}
+give teh ouput and input sample for this
